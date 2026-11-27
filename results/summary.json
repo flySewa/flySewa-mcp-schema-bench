@@ -1,0 +1,76 @@
+[
+  {
+    "scenario": "bare",
+    "totals": {
+      "zod": {
+        "chars": 4624,
+        "bytes": 4624,
+        "o200k": 1653
+      },
+      "zod_optimized": {
+        "chars": 3338,
+        "bytes": 3338,
+        "o200k": 882
+      },
+      "valibot": {
+        "chars": 3366,
+        "bytes": 3366,
+        "o200k": 891
+      }
+    },
+    "responses": {
+      "zod": {
+        "chars": 5533,
+        "bytes": 5533,
+        "o200k": 1831
+      },
+      "zod_optimized": {
+        "chars": 4047,
+        "bytes": 4047,
+        "o200k": 1020
+      },
+      "valibot": {
+        "chars": 4075,
+        "bytes": 4075,
+        "o200k": 1029
+      }
+    }
+  },
+  {
+    "scenario": "described",
+    "totals": {
+      "zod": {
+        "chars": 6606,
+        "bytes": 6606,
+        "o200k": 2041
+      },
+      "zod_optimized": {
+        "chars": 5320,
+        "bytes": 5320,
+        "o200k": 1270
+      },
+      "valibot": {
+        "chars": 5348,
+        "bytes": 5348,
+        "o200k": 1267
+      }
+    },
+    "responses": {
+      "zod": {
+        "chars": 7515,
+        "bytes": 7515,
+        "o200k": 2219
+      },
+      "zod_optimized": {
+        "chars": 6029,
+        "bytes": 6029,
+        "o200k": 1408
+      },
+      "valibot": {
+        "chars": 6057,
+        "bytes": 6057,
+        "o200k": 1405
+      }
+    }
+  }
+]

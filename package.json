@@ -1,0 +1,24 @@
+{
+  "name": "mcp-schema-bench",
+  "version": "1.0.0",
+  "description": "Reproducible comparison of JSON Schema size for MCP tool inputs: Zod vs Valibot",
+  "scripts": {
+    "bench": "node src/bench.js"
+  },
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.14.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@valibot/to-json-schema": "1.8.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "js-tiktoken": "1.0.21",
+    "valibot": "1.5.0",
+    "zod": "4.6.7"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "private": true
+}

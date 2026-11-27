@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Short title shown on the calendar."
+    },
+    "startsAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start time as an ISO 8601 timestamp with a UTC offset."
+    },
+    "endsAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End time as an ISO 8601 timestamp with a UTC offset. Must be after startsAt."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Calendar date the event belongs to (YYYY-MM-DD)."
+    },
+    "attendees": {
+      "maxItems": 50,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "email"
+      },
+      "description": "Email addresses of people to invite."
+    },
+    "reminderMinutes": {
+      "default": 15,
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10080,
+      "description": "Minutes before the start to send a reminder."
+    }
+  },
+  "required": [
+    "title",
+    "startsAt",
+    "endsAt"
+  ]
+}

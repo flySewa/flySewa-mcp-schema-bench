@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Full display name of the user."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address used to sign in."
+    },
+    "age": {
+      "type": "integer",
+      "minimum": 13,
+      "maximum": 120,
+      "description": "Age in whole years. Must be at least 13."
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "age"
+  ]
+}

@@ -1,0 +1,359 @@
+{
+  "measurements": {
+    "zod": {
+      "tools": {
+        "register_user": {
+          "chars": 388,
+          "bytes": 388,
+          "o200k": 141
+        },
+        "schedule_event": {
+          "chars": 1466,
+          "bytes": 1466,
+          "o200k": 714
+        },
+        "search_products": {
+          "chars": 738,
+          "bytes": 738,
+          "o200k": 200
+        },
+        "update_config": {
+          "chars": 1175,
+          "bytes": 1175,
+          "o200k": 301
+        },
+        "bulk_update_tickets": {
+          "chars": 857,
+          "bytes": 857,
+          "o200k": 297
+        }
+      },
+      "total": {
+        "chars": 4624,
+        "bytes": 4624,
+        "o200k": 1653
+      },
+      "response": {
+        "chars": 5533,
+        "bytes": 5533,
+        "o200k": 1831
+      },
+      "combinedArray": {
+        "chars": 4630,
+        "bytes": 4630,
+        "o200k": 1650
+      }
+    },
+    "zod_optimized": {
+      "tools": {
+        "register_user": {
+          "chars": 268,
+          "bytes": 268,
+          "o200k": 73
+        },
+        "schedule_event": {
+          "chars": 484,
+          "bytes": 484,
+          "o200k": 131
+        },
+        "search_products": {
+          "chars": 738,
+          "bytes": 738,
+          "o200k": 200
+        },
+        "update_config": {
+          "chars": 1175,
+          "bytes": 1175,
+          "o200k": 301
+        },
+        "bulk_update_tickets": {
+          "chars": 673,
+          "bytes": 673,
+          "o200k": 177
+        }
+      },
+      "total": {
+        "chars": 3338,
+        "bytes": 3338,
+        "o200k": 882
+      },
+      "response": {
+        "chars": 4047,
+        "bytes": 4047,
+        "o200k": 1020
+      },
+      "combinedArray": {
+        "chars": 3344,
+        "bytes": 3344,
+        "o200k": 879
+      }
+    },
+    "valibot": {
+      "tools": {
+        "register_user": {
+          "chars": 268,
+          "bytes": 268,
+          "o200k": 72
+        },
+        "schedule_event": {
+          "chars": 484,
+          "bytes": 484,
+          "o200k": 130
+        },
+        "search_products": {
+          "chars": 752,
+          "bytes": 752,
+          "o200k": 204
+        },
+        "update_config": {
+          "chars": 1189,
+          "bytes": 1189,
+          "o200k": 306
+        },
+        "bulk_update_tickets": {
+          "chars": 673,
+          "bytes": 673,
+          "o200k": 179
+        }
+      },
+      "total": {
+        "chars": 3366,
+        "bytes": 3366,
+        "o200k": 891
+      },
+      "response": {
+        "chars": 4075,
+        "bytes": 4075,
+        "o200k": 1029
+      },
+      "combinedArray": {
+        "chars": 3372,
+        "bytes": 3372,
+        "o200k": 889
+      }
+    }
+  },
+  "strictness": {
+    "zod": {
+      "register_user": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 22,
+        "invalid": 22,
+        "invalidAcceptedByJsonSchema": []
+      },
+      "schedule_event": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 21,
+        "invalid": 23,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00Z",
+            "endsAt": "2026-03-10T13:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00Z",
+            "endsAt": "2026-03-10T14:00:00Z"
+          }
+        ]
+      },
+      "search_products": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 22,
+        "invalid": 22,
+        "invalidAcceptedByJsonSchema": []
+      },
+      "update_config": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 23,
+        "invalid": 24,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "service": "billing-api",
+            "environment": "staging",
+            "database": {
+              "host": "db.internal",
+              "port": 5432,
+              "pool": {
+                "min": 2,
+                "max": 10
+              }
+            },
+            "logging": {},
+            "webhookUrl": "https://"
+          }
+        ]
+      },
+      "bulk_update_tickets": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 21,
+        "invalid": 21,
+        "invalidAcceptedByJsonSchema": []
+      }
+    },
+    "zod_optimized": {
+      "register_user": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 21,
+        "invalid": 22,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "name": "Ada Lovelace",
+            "email": "a@example.c",
+            "age": 36
+          }
+        ]
+      },
+      "schedule_event": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 19,
+        "invalid": 23,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00Z",
+            "endsAt": "2026-03-10T13:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00Z",
+            "endsAt": "2026-03-10T14:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10 14:00:00Z",
+            "endsAt": "2026-03-10T15:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00+0100",
+            "endsAt": "2026-03-10T15:00:00Z"
+          }
+        ]
+      },
+      "search_products": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 22,
+        "invalid": 22,
+        "invalidAcceptedByJsonSchema": []
+      },
+      "update_config": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 23,
+        "invalid": 24,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "service": "billing-api",
+            "environment": "staging",
+            "database": {
+              "host": "db.internal",
+              "port": 5432,
+              "pool": {
+                "min": 2,
+                "max": 10
+              }
+            },
+            "logging": {},
+            "webhookUrl": "https://"
+          }
+        ]
+      },
+      "bulk_update_tickets": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 21,
+        "invalid": 21,
+        "invalidAcceptedByJsonSchema": []
+      }
+    },
+    "valibot": {
+      "register_user": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 21,
+        "invalid": 22,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "name": "Ada Lovelace",
+            "email": "a@example.c",
+            "age": 36
+          }
+        ]
+      },
+      "schedule_event": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 19,
+        "invalid": 23,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00Z",
+            "endsAt": "2026-03-10T13:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00Z",
+            "endsAt": "2026-03-10T14:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10 14:00:00Z",
+            "endsAt": "2026-03-10T15:00:00Z"
+          },
+          {
+            "title": "Design review",
+            "startsAt": "2026-03-10T14:00:00+0100",
+            "endsAt": "2026-03-10T15:00:00Z"
+          }
+        ]
+      },
+      "search_products": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 22,
+        "invalid": 22,
+        "invalidAcceptedByJsonSchema": []
+      },
+      "update_config": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 23,
+        "invalid": 24,
+        "invalidAcceptedByJsonSchema": [
+          {
+            "service": "billing-api",
+            "environment": "staging",
+            "database": {
+              "host": "db.internal",
+              "port": 5432,
+              "pool": {
+                "min": 2,
+                "max": 10
+              }
+            },
+            "logging": {},
+            "webhookUrl": "https://"
+          }
+        ]
+      },
+      "bulk_update_tickets": {
+        "validAccepted": 20,
+        "valid": 20,
+        "invalidRejected": 21,
+        "invalid": 21,
+        "invalidAcceptedByJsonSchema": []
+      }
+    }
+  }
+}

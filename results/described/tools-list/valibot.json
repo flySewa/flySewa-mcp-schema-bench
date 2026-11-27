@@ -1,0 +1,404 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "register_user",
+        "title": "Register user",
+        "description": "Create a new user account.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "Full display name of the user."
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email address used to sign in."
+            },
+            "age": {
+              "type": "integer",
+              "minimum": 13,
+              "maximum": 120,
+              "description": "Age in whole years. Must be at least 13."
+            }
+          },
+          "required": [
+            "name",
+            "email",
+            "age"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "schedule_event",
+        "title": "Schedule event",
+        "description": "Schedule a calendar event between two points in time.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Short title shown on the calendar."
+            },
+            "startsAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Start time as an ISO 8601 timestamp with a UTC offset."
+            },
+            "endsAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "End time as an ISO 8601 timestamp with a UTC offset. Must be after startsAt."
+            },
+            "date": {
+              "type": "string",
+              "format": "date",
+              "description": "Calendar date the event belongs to (YYYY-MM-DD)."
+            },
+            "attendees": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "email"
+              },
+              "maxItems": 50,
+              "description": "Email addresses of people to invite."
+            },
+            "reminderMinutes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10080,
+              "description": "Minutes before the start to send a reminder.",
+              "default": 15
+            }
+          },
+          "required": [
+            "title",
+            "startsAt",
+            "endsAt"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "search_products",
+        "title": "Search products",
+        "description": "Search the product catalog with optional filters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500,
+              "description": "Free-text search query."
+            },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "enum": [
+                    "electronics",
+                    "books",
+                    "clothing",
+                    "home",
+                    "toys"
+                  ],
+                  "type": "string",
+                  "description": "Restrict results to one category."
+                },
+                "minPrice": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Minimum price in USD."
+                },
+                "maxPrice": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Maximum price in USD."
+                },
+                "inStock": {
+                  "type": "boolean",
+                  "description": "Only return products that are in stock."
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50
+                  },
+                  "maxItems": 10,
+                  "description": "Only return products that carry all of these tags."
+                }
+              },
+              "required": [],
+              "description": "Optional filters that narrow the results."
+            },
+            "sort": {
+              "enum": [
+                "relevance",
+                "price_asc",
+                "price_desc",
+                "newest"
+              ],
+              "type": "string",
+              "description": "Sort order for the results.",
+              "default": "relevance"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Maximum number of results to return.",
+              "default": 20
+            },
+            "page": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991,
+              "description": "Page number, starting at 1.",
+              "default": 1
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "update_config",
+        "title": "Update service configuration",
+        "description": "Update the deployment configuration of a service.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "service": {
+              "type": "string",
+              "maxLength": 63,
+              "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+              "description": "Service identifier in lowercase kebab-case."
+            },
+            "environment": {
+              "enum": [
+                "development",
+                "staging",
+                "production"
+              ],
+              "type": "string",
+              "description": "Target deployment environment."
+            },
+            "database": {
+              "type": "object",
+              "properties": {
+                "host": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 253,
+                  "description": "Database host name."
+                },
+                "port": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535,
+                  "description": "Database port."
+                },
+                "pool": {
+                  "type": "object",
+                  "properties": {
+                    "min": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100,
+                      "description": "Minimum open connections."
+                    },
+                    "max": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100,
+                      "description": "Maximum open connections."
+                    }
+                  },
+                  "required": [
+                    "min",
+                    "max"
+                  ],
+                  "description": "Connection pool limits."
+                }
+              },
+              "required": [
+                "host",
+                "port",
+                "pool"
+              ],
+              "description": "Database connection settings."
+            },
+            "cache": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Whether the cache is enabled."
+                },
+                "ttlSeconds": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 86400,
+                  "description": "Cache entry lifetime in seconds.",
+                  "default": 300
+                }
+              },
+              "required": [
+                "enabled"
+              ],
+              "description": "Optional cache settings."
+            },
+            "featureFlags": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "boolean"
+              },
+              "description": "Feature flag names mapped to on or off."
+            },
+            "logging": {
+              "type": "object",
+              "properties": {
+                "level": {
+                  "enum": [
+                    "debug",
+                    "info",
+                    "warn",
+                    "error"
+                  ],
+                  "type": "string",
+                  "description": "Minimum log level.",
+                  "default": "info"
+                },
+                "format": {
+                  "enum": [
+                    "json",
+                    "text"
+                  ],
+                  "type": "string",
+                  "description": "Log output format.",
+                  "default": "json"
+                }
+              },
+              "required": [],
+              "description": "Logging settings."
+            },
+            "webhookUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "Optional URL notified after the change is applied."
+            }
+          },
+          "required": [
+            "service",
+            "environment",
+            "database",
+            "logging"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "bulk_update_tickets",
+        "title": "Bulk update tickets",
+        "description": "Apply the same change to several support tickets.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "ticketIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "minItems": 1,
+              "maxItems": 100,
+              "description": "IDs of the tickets to update."
+            },
+            "status": {
+              "enum": [
+                "open",
+                "pending",
+                "resolved",
+                "closed"
+              ],
+              "type": "string",
+              "description": "New ticket status."
+            },
+            "priority": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "urgent"
+              ],
+              "type": "string",
+              "description": "New ticket priority."
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "bug",
+                  "billing",
+                  "feature-request",
+                  "account",
+                  "outage"
+                ],
+                "type": "string"
+              },
+              "maxItems": 5,
+              "description": "Labels to apply."
+            },
+            "notify": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "email",
+                  "sms",
+                  "push",
+                  "slack"
+                ],
+                "type": "string"
+              },
+              "description": "Channels used to notify watchers.",
+              "default": [
+                "email"
+              ]
+            },
+            "assigneeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 3,
+              "description": "IDs of agents to assign."
+            }
+          },
+          "required": [
+            "ticketIds"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}
