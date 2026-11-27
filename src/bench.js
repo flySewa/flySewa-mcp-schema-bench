@@ -78,9 +78,7 @@ async function main() {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   addFormats(ajv);
 
-  const data = { env, anthropicLabel: anthropic?.label ?? null, scenarios: [], v1Summary: null };
-  const v1File = path.join(ROOT, 'results-sdk-v1', 'summary.json');
-  if (fs.existsSync(v1File)) data.v1Summary = JSON.parse(fs.readFileSync(v1File, 'utf8'));
+  const data = { env, anthropicLabel: anthropic?.label ?? null, scenarios: [] };
 
   for (const scenario of SCENARIOS) {
     const dir = path.join(RESULTS, scenario.id);
