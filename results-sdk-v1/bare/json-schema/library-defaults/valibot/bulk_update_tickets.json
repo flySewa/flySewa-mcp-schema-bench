@@ -1,0 +1,73 @@
+{
+  "type": "object",
+  "properties": {
+    "ticketIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "status": {
+      "enum": [
+        "open",
+        "pending",
+        "resolved",
+        "closed"
+      ],
+      "type": "string"
+    },
+    "priority": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "type": "string"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "bug",
+          "billing",
+          "feature-request",
+          "account",
+          "outage"
+        ],
+        "type": "string"
+      },
+      "maxItems": 5
+    },
+    "notify": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "email",
+          "sms",
+          "push",
+          "slack"
+        ],
+        "type": "string"
+      },
+      "default": [
+        "email"
+      ]
+    },
+    "assigneeIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "maxItems": 3
+    }
+  },
+  "required": [
+    "ticketIds"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

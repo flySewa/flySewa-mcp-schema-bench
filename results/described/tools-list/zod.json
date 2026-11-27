@@ -6,8 +6,8 @@
         "title": "Register user",
         "description": "Create a new user account.",
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "properties": {
             "name": {
               "type": "string",
@@ -33,9 +33,6 @@
             "email",
             "age"
           ]
-        },
-        "execution": {
-          "taskSupport": "forbidden"
         }
       },
       {
@@ -43,8 +40,8 @@
         "title": "Schedule event",
         "description": "Schedule a calendar event between two points in time.",
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "properties": {
             "title": {
               "type": "string",
@@ -93,9 +90,6 @@
             "startsAt",
             "endsAt"
           ]
-        },
-        "execution": {
-          "taskSupport": "forbidden"
         }
       },
       {
@@ -103,8 +97,8 @@
         "title": "Search products",
         "description": "Search the product catalog with optional filters.",
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "properties": {
             "query": {
               "type": "string",
@@ -182,9 +176,6 @@
           "required": [
             "query"
           ]
-        },
-        "execution": {
-          "taskSupport": "forbidden"
         }
       },
       {
@@ -192,8 +183,8 @@
         "title": "Update service configuration",
         "description": "Update the deployment configuration of a service.",
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "properties": {
             "service": {
               "type": "string",
@@ -323,9 +314,6 @@
             "database",
             "logging"
           ]
-        },
-        "execution": {
-          "taskSupport": "forbidden"
         }
       },
       {
@@ -333,8 +321,8 @@
         "title": "Bulk update tickets",
         "description": "Apply the same change to several support tickets.",
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "properties": {
             "ticketIds": {
               "minItems": 1,
@@ -412,9 +400,6 @@
           "required": [
             "ticketIds"
           ]
-        },
-        "execution": {
-          "taskSupport": "forbidden"
         }
       }
     ]

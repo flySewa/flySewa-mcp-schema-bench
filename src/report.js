@@ -96,8 +96,11 @@ function scenarioSection(s, anthropicLabel) {
   }
   out.push(table(['Metric', 'Zod', 'Zod optimized', 'Valibot', 'Valibot vs Zod', 'Valibot vs Zod optimized'], rows));
   out.push('');
+  const withExecution = V.filter((x) => s.toolsWithExecution[x] > 0);
   out.push(
-    'The default Zod server uses the SDK\'s high-level `McpServer`, which adds `"execution":{"taskSupport":"forbidden"}` to every tool (about 40 characters each). The Zod optimized and Valibot servers use the low-level `Server` and do not add it. This envelope difference is unrelated to the schema library and is why the response gap is larger than the schema gap.',
+    withExecution.length
+      ? `All three servers use \`McpServer.registerTool()\`. Tools carrying an \`execution\` field: ${V.map((x) => `${NAME[x]} ${s.toolsWithExecution[x]}`).join(', ')}.`
+      : 'All three servers use `McpServer.registerTool()` with the same title and description, so the envelope around each schema is identical. No tool in any response carries an `execution` field (the field the v1 Zod server added).',
   );
   out.push('');
 
@@ -123,14 +126,14 @@ function scenarioSection(s, anthropicLabel) {
     out.push('');
   }
   out.push(
-    'Beyond those keywords the schemas carry the same constraints. Key order differs (Zod writes `$schema` first, Valibot last; Valibot writes `type` after `enum`), which does not change character counts but can change token counts by a token or two.',
+    'Beyond those keywords the schemas carry the same constraints. Key order differs (for example, Zod writes `$schema` right after `type`, Valibot writes it last; Valibot writes `type` after `enum`), which does not change character counts but can change token counts by a token or two.',
   );
   out.push('');
 
   out.push('### What each JSON Schema enforces on its own');
   out.push('');
   out.push(
-    'Each `inputSchema` from `tools/list` compiled with Ajv (draft-07, ajv-formats) and run against the same inputs used for the equivalence check. This shows how much of the server-side validation a client or model could learn from the JSON Schema alone. Both libraries still validate every call on the server.',
+    'Each `inputSchema` from `tools/list` compiled with Ajv\'s draft 2020-12 build (`ajv/dist/2020.js`, with ajv-formats) and run against the same inputs used for the equivalence check. This shows how much of the server-side validation a client or model could learn from the JSON Schema alone. Both libraries still validate every call on the server.',
   );
   out.push('');
   const srows = TOOL_NAMES.map((t) => [
@@ -160,7 +163,7 @@ function scenarioSection(s, anthropicLabel) {
   );
   out.push('');
   out.push(
-    `Sanity checks: the \`inputSchema\` in \`tools/list\` is byte-for-byte the same object as the standalone conversion for every variant: ${V.map((x) => `${NAME[x]} ${s.wireMatchesStandalone[x] ? 'yes' : 'NO'}`).join(', ')}.`,
+    `Sanity checks: the \`inputSchema\` in \`tools/list\` has the same keys and values as the standalone conversion for every variant: ${V.map((x) => `${NAME[x]} ${s.wireMatchesStandalone[x] ? 'yes' : 'NO'}`).join(', ')}.`,
   );
   out.push('');
   return out.join('\n');
@@ -179,6 +182,7 @@ export function writeReport(file, data) {
   out.push(`- Node.js ${env.node}`);
   out.push(`- OS: ${env.os}`);
   for (const [n, ver] of Object.entries(env.packages)) out.push(`- \`${n}\` ${ver}`);
+  out.push(`- MCP protocol version negotiated by the in-memory client and server: \`${first.protocolVersion}\``);
   out.push('');
   out.push('## Tokenizers used');
   out.push('');
@@ -203,6 +207,46 @@ export function writeReport(file, data) {
     }
   }
   out.push(table(['Measure', 'Zod', 'Zod optimized', 'Valibot', 'Valibot vs Zod', 'Valibot vs Zod optimized'], hrows));
+  out.push('');
+
+  if (data.v1Summary) {
+    out.push('## Compared with the previous run on MCP SDK v1 (`@modelcontextprotocol/sdk` 1.32.2)');
+    out.push('');
+    out.push('The v1 numbers are read from `results-sdk-v1/summary.json`, the saved output of the earlier run. Same five tools, same inputs, same library versions; only the MCP SDK changed.');
+    out.push('');
+    const crow = [];
+    for (const s of scenarios) {
+      const old = data.v1Summary.find((x) => x.scenario === s.scenario.id);
+      if (!old) continue;
+      for (const x of V) {
+        const nw = s.measurements[x].total;
+        const ov = old.totals[x];
+        crow.push([`${s.scenario.label}, ${NAME[x]}`, ov.chars, nw.chars, pct(ov.chars, nw.chars), ov.o200k, nw.o200k, pct(ov.o200k, nw.o200k)]);
+      }
+    }
+    out.push(table(['Scenario and variant', 'v1 characters', 'v2 characters', 'Change', 'v1 o200k_base tokens', 'v2 o200k_base tokens', 'Change'], crow));
+    out.push('');
+    const vrow = [];
+    for (const s of scenarios) {
+      const old = data.v1Summary.find((x) => x.scenario === s.scenario.id);
+      if (!old) continue;
+      const o = old.totals;
+      const t = Object.fromEntries(V.map((x) => [x, s.measurements[x].total]));
+      vrow.push([`${s.scenario.label}: Valibot vs Zod, tokens`, pct(o.zod.o200k, o.valibot.o200k), pct(t.zod.o200k, t.valibot.o200k)]);
+      vrow.push([`${s.scenario.label}: Valibot vs Zod optimized, tokens`, pct(o.zod_optimized.o200k, o.valibot.o200k), pct(t.zod_optimized.o200k, t.valibot.o200k)]);
+      vrow.push([`${s.scenario.label}: full tools/list response, Valibot vs Zod, characters`, pct(old.responses.zod.chars, old.responses.valibot.chars), pct(s.measurements.zod.response.chars, s.measurements.valibot.response.chars)]);
+    }
+    out.push(table(['Comparison', 'v1', 'v2'], vrow));
+    out.push('');
+  }
+
+  out.push('## Known issue: Valibot `toStandardJsonSchema()` with `v.check()` on SDK v2');
+  out.push('');
+  out.push(
+    first.unwrappedValibotError
+      ? `This run registered the Valibot schemas with plain \`toStandardJsonSchema(schema)\` once, without the workaround. \`tools/list\` failed with: \`${first.unwrappedValibotError}\`. The measured Valibot server uses a wrapper that passes \`libraryOptions: { ignoreActions: ['check', 'partial_check'] }\` (see README).`
+      : 'This run registered the Valibot schemas with plain `toStandardJsonSchema(schema)` once, without the workaround, and `tools/list` succeeded. The known issue described in the README did not reproduce.',
+  );
   out.push('');
 
   out.push('## Equivalence check');

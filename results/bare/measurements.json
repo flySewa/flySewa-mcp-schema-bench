@@ -3,133 +3,133 @@
     "zod": {
       "tools": {
         "register_user": {
-          "chars": 388,
-          "bytes": 388,
-          "o200k": 141
+          "chars": 393,
+          "bytes": 393,
+          "o200k": 143
         },
         "schedule_event": {
-          "chars": 1466,
-          "bytes": 1466,
-          "o200k": 714
+          "chars": 1471,
+          "bytes": 1471,
+          "o200k": 716
         },
         "search_products": {
-          "chars": 738,
-          "bytes": 738,
-          "o200k": 200
+          "chars": 743,
+          "bytes": 743,
+          "o200k": 202
         },
         "update_config": {
-          "chars": 1175,
-          "bytes": 1175,
-          "o200k": 301
+          "chars": 1180,
+          "bytes": 1180,
+          "o200k": 303
         },
         "bulk_update_tickets": {
-          "chars": 857,
-          "bytes": 857,
-          "o200k": 297
+          "chars": 862,
+          "bytes": 862,
+          "o200k": 299
         }
       },
       "total": {
-        "chars": 4624,
-        "bytes": 4624,
-        "o200k": 1653
+        "chars": 4649,
+        "bytes": 4649,
+        "o200k": 1663
       },
       "response": {
-        "chars": 5533,
-        "bytes": 5533,
-        "o200k": 1831
+        "chars": 5358,
+        "bytes": 5358,
+        "o200k": 1801
       },
       "combinedArray": {
-        "chars": 4630,
-        "bytes": 4630,
-        "o200k": 1650
+        "chars": 4655,
+        "bytes": 4655,
+        "o200k": 1660
       }
     },
     "zod_optimized": {
       "tools": {
         "register_user": {
-          "chars": 268,
-          "bytes": 268,
-          "o200k": 73
+          "chars": 273,
+          "bytes": 273,
+          "o200k": 75
         },
         "schedule_event": {
-          "chars": 484,
-          "bytes": 484,
-          "o200k": 131
+          "chars": 489,
+          "bytes": 489,
+          "o200k": 133
         },
         "search_products": {
-          "chars": 738,
-          "bytes": 738,
-          "o200k": 200
+          "chars": 743,
+          "bytes": 743,
+          "o200k": 202
         },
         "update_config": {
-          "chars": 1175,
-          "bytes": 1175,
-          "o200k": 301
+          "chars": 1180,
+          "bytes": 1180,
+          "o200k": 303
         },
         "bulk_update_tickets": {
-          "chars": 673,
-          "bytes": 673,
-          "o200k": 177
+          "chars": 678,
+          "bytes": 678,
+          "o200k": 179
         }
       },
       "total": {
-        "chars": 3338,
-        "bytes": 3338,
-        "o200k": 882
+        "chars": 3363,
+        "bytes": 3363,
+        "o200k": 892
       },
       "response": {
-        "chars": 4047,
-        "bytes": 4047,
-        "o200k": 1020
+        "chars": 4072,
+        "bytes": 4072,
+        "o200k": 1030
       },
       "combinedArray": {
-        "chars": 3344,
-        "bytes": 3344,
-        "o200k": 879
+        "chars": 3369,
+        "bytes": 3369,
+        "o200k": 889
       }
     },
     "valibot": {
       "tools": {
         "register_user": {
-          "chars": 268,
-          "bytes": 268,
-          "o200k": 72
+          "chars": 273,
+          "bytes": 273,
+          "o200k": 74
         },
         "schedule_event": {
-          "chars": 484,
-          "bytes": 484,
-          "o200k": 130
+          "chars": 489,
+          "bytes": 489,
+          "o200k": 132
         },
         "search_products": {
-          "chars": 752,
-          "bytes": 752,
-          "o200k": 204
+          "chars": 757,
+          "bytes": 757,
+          "o200k": 206
         },
         "update_config": {
-          "chars": 1189,
-          "bytes": 1189,
-          "o200k": 306
+          "chars": 1194,
+          "bytes": 1194,
+          "o200k": 308
         },
         "bulk_update_tickets": {
-          "chars": 673,
-          "bytes": 673,
-          "o200k": 179
+          "chars": 678,
+          "bytes": 678,
+          "o200k": 181
         }
       },
       "total": {
-        "chars": 3366,
-        "bytes": 3366,
-        "o200k": 891
+        "chars": 3391,
+        "bytes": 3391,
+        "o200k": 901
       },
       "response": {
-        "chars": 4075,
-        "bytes": 4075,
-        "o200k": 1029
+        "chars": 4100,
+        "bytes": 4100,
+        "o200k": 1039
       },
       "combinedArray": {
-        "chars": 3372,
-        "bytes": 3372,
-        "o200k": 889
+        "chars": 3397,
+        "bytes": 3397,
+        "o200k": 899
       }
     }
   },

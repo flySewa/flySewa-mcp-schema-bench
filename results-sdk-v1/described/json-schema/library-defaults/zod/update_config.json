@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string",
+      "maxLength": 63,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "description": "Service identifier in lowercase kebab-case."
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "development",
+        "staging",
+        "production"
+      ],
+      "description": "Target deployment environment."
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253,
+          "description": "Database host name."
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "Database port."
+        },
+        "pool": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Minimum open connections."
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Maximum open connections."
+            }
+          },
+          "required": [
+            "min",
+            "max"
+          ],
+          "additionalProperties": false,
+          "description": "Connection pool limits."
+        }
+      },
+      "required": [
+        "host",
+        "port",
+        "pool"
+      ],
+      "additionalProperties": false,
+      "description": "Database connection settings."
+    },
+    "cache": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the cache is enabled."
+        },
+        "ttlSeconds": {
+          "default": 300,
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400,
+          "description": "Cache entry lifetime in seconds."
+        }
+      },
+      "required": [
+        "enabled",
+        "ttlSeconds"
+      ],
+      "additionalProperties": false,
+      "description": "Optional cache settings."
+    },
+    "featureFlags": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "description": "Feature flag names mapped to on or off."
+    },
+    "logging": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "default": "info",
+          "type": "string",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "description": "Minimum log level."
+        },
+        "format": {
+          "default": "json",
+          "type": "string",
+          "enum": [
+            "json",
+            "text"
+          ],
+          "description": "Log output format."
+        }
+      },
+      "required": [
+        "level",
+        "format"
+      ],
+      "additionalProperties": false,
+      "description": "Logging settings."
+    },
+    "webhookUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional URL notified after the change is applied."
+    }
+  },
+  "required": [
+    "service",
+    "environment",
+    "database",
+    "logging"
+  ],
+  "additionalProperties": false
+}

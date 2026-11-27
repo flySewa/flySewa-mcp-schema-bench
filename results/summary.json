@@ -3,36 +3,36 @@
     "scenario": "bare",
     "totals": {
       "zod": {
-        "chars": 4624,
-        "bytes": 4624,
-        "o200k": 1653
+        "chars": 4649,
+        "bytes": 4649,
+        "o200k": 1663
       },
       "zod_optimized": {
-        "chars": 3338,
-        "bytes": 3338,
-        "o200k": 882
+        "chars": 3363,
+        "bytes": 3363,
+        "o200k": 892
       },
       "valibot": {
-        "chars": 3366,
-        "bytes": 3366,
-        "o200k": 891
+        "chars": 3391,
+        "bytes": 3391,
+        "o200k": 901
       }
     },
     "responses": {
       "zod": {
-        "chars": 5533,
-        "bytes": 5533,
-        "o200k": 1831
+        "chars": 5358,
+        "bytes": 5358,
+        "o200k": 1801
       },
       "zod_optimized": {
-        "chars": 4047,
-        "bytes": 4047,
-        "o200k": 1020
+        "chars": 4072,
+        "bytes": 4072,
+        "o200k": 1030
       },
       "valibot": {
-        "chars": 4075,
-        "bytes": 4075,
-        "o200k": 1029
+        "chars": 4100,
+        "bytes": 4100,
+        "o200k": 1039
       }
     }
   },
@@ -40,36 +40,36 @@
     "scenario": "described",
     "totals": {
       "zod": {
-        "chars": 6606,
-        "bytes": 6606,
-        "o200k": 2041
+        "chars": 6631,
+        "bytes": 6631,
+        "o200k": 2051
       },
       "zod_optimized": {
-        "chars": 5320,
-        "bytes": 5320,
-        "o200k": 1270
+        "chars": 5345,
+        "bytes": 5345,
+        "o200k": 1280
       },
       "valibot": {
-        "chars": 5348,
-        "bytes": 5348,
-        "o200k": 1267
+        "chars": 5373,
+        "bytes": 5373,
+        "o200k": 1277
       }
     },
     "responses": {
       "zod": {
-        "chars": 7515,
-        "bytes": 7515,
-        "o200k": 2219
+        "chars": 7340,
+        "bytes": 7340,
+        "o200k": 2189
       },
       "zod_optimized": {
-        "chars": 6029,
-        "bytes": 6029,
-        "o200k": 1408
+        "chars": 6054,
+        "bytes": 6054,
+        "o200k": 1418
       },
       "valibot": {
-        "chars": 6057,
-        "bytes": 6057,
-        "o200k": 1405
+        "chars": 6082,
+        "bytes": 6082,
+        "o200k": 1415
       }
     }
   }

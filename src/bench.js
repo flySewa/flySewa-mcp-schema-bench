@@ -3,7 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { createRequire } from 'node:module';
 import { isDeepStrictEqual } from 'node:util';
-import AjvModule from 'ajv';
+import Ajv2020Module from 'ajv/dist/2020.js';
 import addFormatsModule from 'ajv-formats';
 import { buildZodSchemas } from './schemas/zod.js';
 import { buildValibotSchemas } from './schemas/valibot.js';
@@ -16,13 +16,13 @@ import {
   zodLibraryDefault,
   zodToJson,
 } from './convert.js';
-import { buildServers, captureToolsList } from './mcp.js';
+import { buildServers, captureToolsList, toolsListError } from './mcp.js';
 import { countO200k, createAnthropicCounter, O200K_LABEL } from './tokens.js';
 import { diffSchemas, summarizeDiff } from './diff.js';
 import { writeReport } from './report.js';
 import { runDivergenceProbes } from './divergences.js';
 
-const Ajv = AjvModule.default ?? AjvModule;
+const Ajv2020 = Ajv2020Module.default ?? Ajv2020Module;
 const addFormats = addFormatsModule.default ?? addFormatsModule;
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
@@ -48,7 +48,8 @@ function environment() {
     'zod',
     'valibot',
     '@valibot/to-json-schema',
-    '@modelcontextprotocol/sdk',
+    '@modelcontextprotocol/server',
+    '@modelcontextprotocol/client',
     'js-tiktoken',
     '@anthropic-ai/sdk',
     'ajv',
@@ -73,10 +74,13 @@ async function main() {
       : `Tokenizers: ${O200K_LABEL}. ANTHROPIC_API_KEY not set, skipping Anthropic counts.`,
   );
 
-  const ajv = new Ajv({ allErrors: true, strict: false });
+  // SDK v2 emits JSON Schema draft 2020-12, so use Ajv's 2020-12 build.
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
   addFormats(ajv);
 
-  const data = { env, anthropicLabel: anthropic?.label ?? null, scenarios: [] };
+  const data = { env, anthropicLabel: anthropic?.label ?? null, scenarios: [], v1Summary: null };
+  const v1File = path.join(ROOT, 'results-sdk-v1', 'summary.json');
+  if (fs.existsSync(v1File)) data.v1Summary = JSON.parse(fs.readFileSync(v1File, 'utf8'));
 
   for (const scenario of SCENARIOS) {
     const dir = path.join(RESULTS, scenario.id);
@@ -125,9 +129,13 @@ async function main() {
       TOOL_NAMES.map((t) => [t, { valid: CASES[t].valid[0], invalid: CASES[t].invalid[1] }]),
     );
     const servers = buildServers({ zodSchemas, valibotSchemas });
+    // Known issue: plain toStandardJsonSchema() without the ignoreActions wrapper.
+    const unwrappedValibotError = await toolsListError(servers.valibot_unwrapped);
     const wire = {};
+    let protocolVersion = null;
     for (const variant of VARIANTS) {
-      const { raw, calls } = await captureToolsList(servers[variant], probes);
+      const { raw, calls, protocolVersion: pv } = await captureToolsList(servers[variant], probes);
+      protocolVersion = pv;
       writeJson(path.join(dir, 'tools-list', `${variant}.json`), raw);
       const inputSchemas = Object.fromEntries(raw.result.tools.map((t) => [t.name, t.inputSchema]));
       wire[variant] = {
@@ -179,7 +187,7 @@ async function main() {
       };
     }
 
-    // 5. How much each generated JSON Schema enforces on its own (Ajv draft-07).
+    // 5. How much each generated JSON Schema enforces on its own (Ajv draft 2020-12).
     const strictness = {};
     for (const variant of VARIANTS) {
       strictness[variant] = {};
@@ -214,6 +222,11 @@ async function main() {
       equivalence,
       divergences,
       libraryDefaults,
+      protocolVersion,
+      unwrappedValibotError,
+      toolsWithExecution: Object.fromEntries(
+        VARIANTS.map((v) => [v, wire[v].raw.result.tools.filter((t) => 'execution' in t).length]),
+      ),
       measurements,
       strictness,
       differences,

@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "tools": {
+    "register_user": {
+      "valid": 20,
+      "invalid": 22,
+      "disagreements": []
+    },
+    "schedule_event": {
+      "valid": 20,
+      "invalid": 23,
+      "disagreements": []
+    },
+    "search_products": {
+      "valid": 20,
+      "invalid": 22,
+      "disagreements": []
+    },
+    "update_config": {
+      "valid": 20,
+      "invalid": 24,
+      "disagreements": []
+    },
+    "bulk_update_tickets": {
+      "valid": 20,
+      "invalid": 21,
+      "disagreements": []
+    }
+  }
+}

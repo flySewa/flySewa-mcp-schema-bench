@@ -1,0 +1,118 @@
+{
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string",
+      "maxLength": 63,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "environment": {
+      "enum": [
+        "development",
+        "staging",
+        "production"
+      ],
+      "type": "string"
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "pool": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "min",
+            "max"
+          ]
+        }
+      },
+      "required": [
+        "host",
+        "port",
+        "pool"
+      ]
+    },
+    "cache": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "ttlSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400,
+          "default": 300
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "featureFlags": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "logging": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "type": "string",
+          "default": "info"
+        },
+        "format": {
+          "enum": [
+            "json",
+            "text"
+          ],
+          "type": "string",
+          "default": "json"
+        }
+      },
+      "required": []
+    },
+    "webhookUrl": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "service",
+    "environment",
+    "database",
+    "logging"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

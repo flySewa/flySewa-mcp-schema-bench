@@ -1,0 +1,361 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "register_user",
+        "title": "Register user",
+        "description": "Create a new user account.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "age": {
+              "type": "integer",
+              "minimum": 13,
+              "maximum": 120
+            }
+          },
+          "required": [
+            "name",
+            "email",
+            "age"
+          ]
+        }
+      },
+      {
+        "name": "schedule_event",
+        "title": "Schedule event",
+        "description": "Schedule a calendar event between two points in time.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "startsAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "endsAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "date": {
+              "type": "string",
+              "format": "date"
+            },
+            "attendees": {
+              "maxItems": 50,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "email"
+              }
+            },
+            "reminderMinutes": {
+              "default": 15,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10080
+            }
+          },
+          "required": [
+            "title",
+            "startsAt",
+            "endsAt"
+          ]
+        }
+      },
+      {
+        "name": "search_products",
+        "title": "Search products",
+        "description": "Search the product catalog with optional filters.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "enum": [
+                    "electronics",
+                    "books",
+                    "clothing",
+                    "home",
+                    "toys"
+                  ]
+                },
+                "minPrice": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "maxPrice": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "inStock": {
+                  "type": "boolean"
+                },
+                "tags": {
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50
+                  }
+                }
+              }
+            },
+            "sort": {
+              "default": "relevance",
+              "type": "string",
+              "enum": [
+                "relevance",
+                "price_asc",
+                "price_desc",
+                "newest"
+              ]
+            },
+            "limit": {
+              "default": 20,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "page": {
+              "default": 1,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      },
+      {
+        "name": "update_config",
+        "title": "Update service configuration",
+        "description": "Update the deployment configuration of a service.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "service": {
+              "type": "string",
+              "maxLength": 63,
+              "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "development",
+                "staging",
+                "production"
+              ]
+            },
+            "database": {
+              "type": "object",
+              "properties": {
+                "host": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 253
+                },
+                "port": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "pool": {
+                  "type": "object",
+                  "properties": {
+                    "min": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "max": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "min",
+                    "max"
+                  ]
+                }
+              },
+              "required": [
+                "host",
+                "port",
+                "pool"
+              ]
+            },
+            "cache": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "ttlSeconds": {
+                  "default": 300,
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 86400
+                }
+              },
+              "required": [
+                "enabled"
+              ]
+            },
+            "featureFlags": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            },
+            "logging": {
+              "type": "object",
+              "properties": {
+                "level": {
+                  "default": "info",
+                  "type": "string",
+                  "enum": [
+                    "debug",
+                    "info",
+                    "warn",
+                    "error"
+                  ]
+                },
+                "format": {
+                  "default": "json",
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "text"
+                  ]
+                }
+              }
+            },
+            "webhookUrl": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "service",
+            "environment",
+            "database",
+            "logging"
+          ]
+        }
+      },
+      {
+        "name": "bulk_update_tickets",
+        "title": "Bulk update tickets",
+        "description": "Apply the same change to several support tickets.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "ticketIds": {
+              "minItems": 1,
+              "maxItems": 100,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "pending",
+                "resolved",
+                "closed"
+              ]
+            },
+            "priority": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "urgent"
+              ]
+            },
+            "labels": {
+              "maxItems": 5,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "bug",
+                  "billing",
+                  "feature-request",
+                  "account",
+                  "outage"
+                ]
+              }
+            },
+            "notify": {
+              "default": [
+                "email"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "email",
+                  "sms",
+                  "push",
+                  "slack"
+                ]
+              }
+            },
+            "assigneeIds": {
+              "maxItems": 3,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          "required": [
+            "ticketIds"
+          ]
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}
